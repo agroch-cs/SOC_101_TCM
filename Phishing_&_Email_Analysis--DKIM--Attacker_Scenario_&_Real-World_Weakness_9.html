@@ -1,0 +1,12 @@
+<!doctype html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Attacker Scenario & Real-World Weakness</title>
+  <meta name="generator" content="CherryTree">
+  <link rel="stylesheet" href="res/styles4.css" type="text/css" />
+</head>
+<body>
+<div class='page'><h1 class='title'>Attacker Scenario & Real-World Weakness</h1><br/><p>-----------------------------------------------------</p><p>CHILD NODE: Attacker Scenario &amp; Real-World Weakness</p><p>-----------------------------------------------------</p><p>Attacker with public key only<ul><li>Can read DNS and obtain the public key (by design).</li><li>Cannot generate a valid `b` signature; only the private key can sign.</li><li>If attacker alters body/headers, recomputed hashes won’t match.</li></ul></p><p></p><p>Private key compromise<ul><li>If attacker steals the sender’s private DKIM key, they can sign malicious mail.</li><li>Mitigations:</li></ul></p><p>  - Protect keys (HSM if possible), rotate periodically.</p><p>  - Enforce domain alignment and failure policies with **DMARC**.</p><p>  - Maintain **SPF** to restrict who can send for your domain.</p><p></p><p>Quick Compare<ul><li>DKIM = signs content → integrity &amp; domain authenticity.</li><li>SPF = checks sending hosts/IPs.</li><li>DMARC = policy + alignment + reporting on SPF/DKIM results.</li></ul></p></div>
+</body>
+</html>

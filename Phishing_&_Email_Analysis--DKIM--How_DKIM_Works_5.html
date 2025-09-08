@@ -1,0 +1,12 @@
+<!doctype html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>How DKIM Works</title>
+  <meta name="generator" content="CherryTree">
+  <link rel="stylesheet" href="res/styles4.css" type="text/css" />
+</head>
+<body>
+<div class='page'><h1 class='title'>How DKIM Works</h1><br/><p>-----------------------------------------------------</p><p>CHILD NODE: How DKIM Works</p><p>-----------------------------------------------------<ol><li>Sender (signing)<ul><li>Canonicalize: normalize headers/body per `c=relaxed/relaxed` (whitespace/case rules).</li><li>Compute body hash → **bh** (SHA-256 of the body; base64-encoded).</li><li>Build signing string by **concatenating** (not adding) selected header fields + the **bh** value in a strict format.</li><li>Hash the signing string (e.g., SHA-256).</li><li>Sign that hash with the **private RSA key** → output is **b** (the DKIM signature, base64).</li><li>Insert `DKIM-Signature:` header with fields: `v, a, c, d, h, s, bh, b`.</li></ul></li></ol></p><p><ol><li>Recipient (verification)<ul><li>Parse `DKIM-Signature`.</li><li>Fetch public key from DNS at `selector._domainkey.domain`.</li><li>Re-hash the body → compare to **bh**. If mismatch → body was altered.</li><li>Rebuild the signing string from received headers + **bh**, hash it.</li><li>Use public key to verify **b** equals the computed hash.</li><li>If both pass → DKIM=PASS; else → DKIM=FAIL.</li></ul></li></ol></p><p></p><p>Notes<ul><li>**Concatenation** = “gluing text fields together in order,” not arithmetic addition.</li><li>Canonicalization prevents trivial formatting changes from breaking signatures.</li></ul></p></div>
+</body>
+</html>

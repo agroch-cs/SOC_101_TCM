@@ -1,0 +1,12 @@
+<!doctype html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Worked Verification Example</title>
+  <meta name="generator" content="CherryTree">
+  <link rel="stylesheet" href="res/styles4.css" type="text/css" />
+</head>
+<body>
+<div class='page'><h1 class='title'>Worked Verification Example</h1><br/><p>-----------------------------------------------------</p><p>CHILD NODE: Worked Verification Example</p><p>-----------------------------------------------------</p><p>Scenario<ul><li>Message:</li></ul></p><p>  - From: alice@namecheap.com</p><p>  - To: bob@example.net</p><p>  - Subject: Hello</p><p>  - Body: “Hi Bob, here’s the document.”</p><p></p><p>Sender Steps<ul><li>Compute body hash: `bh = base64(SHA256(canonicalized_body))`.</li><li>Build signing string: concatenate selected headers (From, To, Subject, Date, Message-ID…) + `bh` in the exact order specified by `h=`.</li><li>Hash signing string: `H = SHA256(signing_string)`.</li><li>Sign with private key: `b = base64(RSA_sign(H, private_key))`.</li><li>Attach `DKIM-Signature:` with fields (`v, a, c, d, h, s, bh, b`).</li></ul></p><p></p><p>Recipient Steps<ul><li>Fetch public key from DNS: `selector._domainkey.namecheap.com`.</li><li>Verify body: recompute `bh&#39; = base64(SHA256(canonicalized_body_received))` → compare to `bh`.</li><li>Verify headers: rebuild `signing_string&#39;` from received headers + `bh`, hash to `H&#39;`.</li><li>Verify signature: `RSA_verify(b, H&#39;, public_key)` → PASS if matches.</li></ul></p><p></p><p>Takeaway<ul><li>If body or signed headers were modified, either `bh` or the signature check fails.</p><p></li></ul></p></div>
+</body>
+</html>
